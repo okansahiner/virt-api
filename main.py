@@ -1,1 +1,5 @@
-print "hello world from Kusadasi, Turkey :)"
+import sys
+
+sys.path.append("./lib")
+
+
