@@ -2,8 +2,8 @@
 # you need psutil python package installed
 # pip install psutil
 
-import platform, psutil, datetime, subprocess, os, logging
 from libvirt_api import getVirtServicePid, isAgentDebuggingEnabled, getAgentDebuggingPath
+import platform, psutil, datetime, subprocess, os, logging
 
 
 if isAgentDebuggingEnabled():

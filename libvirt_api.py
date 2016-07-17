@@ -3,12 +3,13 @@
 # tested on ubuntu 12.04.3 server, libvirtd version 0.9.8
 #
 
+import config_parser
+from io import open as openfile
 from libvirt import *
 from libvirt import open as openconn
-import xml.etree.ElementTree as xml
 import logging
-from io import open as openfile
-import config_parser
+import xml.etree.ElementTree as xml
+
 
 agentConf=config_parser.agentConfig()
 

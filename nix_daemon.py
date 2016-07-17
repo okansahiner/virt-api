@@ -1,11 +1,11 @@
 # daemonize the vmhost object
 
-import sys, os, time, atexit, logging
+from SimpleXMLRPCServer import SimpleXMLRPCRequestHandler
+from SimpleXMLRPCServer import SimpleXMLRPCServer
 from signal import SIGTERM
+import sys, os, time, atexit, logging
 from vm_host import vmHost, getIp, getPort, getErrorLogPath
 
-from SimpleXMLRPCServer import SimpleXMLRPCServer
-from SimpleXMLRPCServer import SimpleXMLRPCRequestHandler
 
 agentIp=getIp()
 agentPort=getPort()

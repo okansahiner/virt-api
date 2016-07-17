@@ -11,11 +11,12 @@
 # I cleaned it, so it will work as standalone python script
 # just comment out the bottom of file and run it.
 
+from io import open as openfile
 from libvirt import *
 from libvirt import open as openconn
-import xml.etree.ElementTree as xml
 import logging
-from io import open as openfile
+import xml.etree.ElementTree as xml
+import os.chroot
 
 
 def getVirtServicePid():

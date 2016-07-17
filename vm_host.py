@@ -1,8 +1,9 @@
 # this class merges linux and libvirt_api modules
 # so all functions are callable from this
 
-from linux import Linux
 from libvirt_api import libvirtHypervisor, getAgentIp, getAgentPort, getAgentErrorLogPath
+from linux import Linux
+
 
 def getIp():
     return getAgentIp()
