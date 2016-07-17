@@ -1,4 +1,4 @@
-Notice: this project is not in use now. It is being used for experimental pur
+Notice: this project is not in use now. It is being used for experimental purposes
 
 new libvirt api for kvm
 
