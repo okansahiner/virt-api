@@ -1,3 +1,5 @@
+Notice: this project is not in use now. It is being used for experimental pur
+
 new libvirt api for kvm
 
 you need libvirt-bin,qemu-kvm and python-libvirt package installed
