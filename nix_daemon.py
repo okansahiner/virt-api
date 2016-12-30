@@ -5,7 +5,7 @@ from SimpleXMLRPCServer import SimpleXMLRPCServer
 from signal import SIGTERM
 import sys, os, time, atexit, logging
 from vm_host import vmHost, getIp, getPort, getErrorLogPath
-
+from sys import modules
 
 agentIp=getIp()
 agentPort=getPort()
@@ -13,7 +13,7 @@ agentErrorLog=getErrorLogPath()
 
 class RequestHandler(SimpleXMLRPCRequestHandler):
     rpc_paths = ('/RPC2',)
-    
+
 class Daemon:
         def __init__(self):
             self.__server=None
@@ -22,9 +22,9 @@ class Daemon:
             self.__stdout =  '/dev/null'
             self.__stderr= agentErrorLog
             self.__pidfile='/var/run/vm-agent.pid'
-            self.__listenPort=agentPort         
+            self.__listenPort=agentPort
 	    self.__listenIp= agentIp
-                             
+
         def daemonize(self):
                 try:
                         pid = os.fork()
@@ -44,7 +44,7 @@ class Daemon:
                 except OSError, e:
                         sys.stderr.write("fork #2 failed: %d (%s)\n" % (e.errno, e.strerror))
                         sys.exit(1)
-                        
+
                 sys.stdout.flush()
                 sys.stderr.flush()
                 si = file(self.__stdin, 'r')
@@ -56,10 +56,10 @@ class Daemon:
                 atexit.register(self.delpid)
                 pid = str(os.getpid())
                 file(self.__pidfile,'w+').write("%s\n" % pid)
-       
+
         def delpid(self):
                 os.remove(self.__pidfile)
- 
+
         def start(self):
                 try:
                         pf = file(self.__pidfile,'r')
@@ -67,15 +67,15 @@ class Daemon:
                         pf.close()
                 except IOError:
                         pid = None
-       
+
                 if pid:
                         message = "pidfile %s already exist. Daemon already running?\n"
                         sys.stderr.write(message % self.__pidfile)
-                        sys.exit(1)    
-		sys.stdout.write("Agent status: Started listening from ip " + self.__listenIp + " and port " + self.__listenPort + "\n") 
+                        sys.exit(1)
+		sys.stdout.write("Agent status: Started listening from ip " + self.__listenIp + " and port " + self.__listenPort + "\n")
                 self.daemonize()
                 self.run()
- 
+
         def stop(self):
                 try:
                         pf = file(self.__pidfile,'r')
@@ -83,7 +83,7 @@ class Daemon:
                         pf.close()
                 except IOError:
                         pid = None
-       
+
                 if not pid:
                         message = "pidfile %s does not exist. Daemon not running?\n"
                         sys.stderr.write(message % self.__pidfile)
@@ -102,13 +102,13 @@ class Daemon:
                                 print str(err)
                                 sys.exit(1)
 		sys.stdout.write("Agent status: Stopped\n")
- 
+
         def restart(self):
                 self.stop()
                 self.start()
- 
+
         def run(self):
             self.__server = SimpleXMLRPCServer((self.__listenIp, int(self.__listenPort)), requestHandler=RequestHandler, allow_none=True)
             self.__server.register_introspection_functions()
             self.__server.register_instance(vmHost())
-            self.__server.serve_forever() 
+            self.__server.serve_forever()
